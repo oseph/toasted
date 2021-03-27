@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7b9da1e2ccbfd4295901632f5e5adc75
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - breadSpawner: {instanceID: 0}
+  - toastA: {instanceID: 0}
+  - toastB: {instanceID: 0}
+  - highlighted: {fileID: 2100000, guid: ac1c57bf0ee43496389f0fa6f75dba2a, type: 2}
+  - normal: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
