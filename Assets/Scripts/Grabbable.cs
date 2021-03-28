@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Grabbable : MonoBehaviour {
 
-	//Quaternion originalRotationValue;
-	Rigidbody rigidbody;
-	static float yPosition = -2.25f;
+    //Quaternion originalRotationValue;
+    Rigidbody rigidbody;
+    static float yPosition = -2.25f;
 	Collider collider;
 	public bool isGrabblable;
 

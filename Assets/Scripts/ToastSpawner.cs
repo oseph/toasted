@@ -8,7 +8,7 @@ public class ToastSpawner : MonoBehaviour {
 	public int maxBread;
 	[HideInInspector]
 	public int breadCount = 0;
-
+	const float MIN_SPAWN = 0.25f;
 	public float spawnTime = 0.25f;
 	float timer = 0.0f;
 
@@ -26,6 +26,7 @@ public class ToastSpawner : MonoBehaviour {
 		timer += Time.deltaTime;
 		if (timer > spawnTime) {
 			SpawnBread();
+			spawnTime = MIN_SPAWN + Random.Range(-0.05f, 0.25f);
 			timer = 0.0f;
 		}
 		RemoveExtraBread();

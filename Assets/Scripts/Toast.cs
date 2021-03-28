@@ -11,6 +11,10 @@ public class Toast : MonoBehaviour {
 	public Quaternion originalRotationValue;
 	private ToastSpawner breadSpawner;
 	private AudioSource bumpSound;
+	private Renderer ren;
+
+	public Material toasted1;
+	public Material toasted2;
 
 	public const float yPosition = -2.25f;
 	private Toaster toaster;
@@ -23,10 +27,6 @@ public class Toast : MonoBehaviour {
 	public bool isToasted = false;
 	public bool hasCondiment = false;
 	public Toasted toastedState = Toasted.NOT;
-
-	// public bool toasted = false;
-	// public bool doubleToasted = false;
-	// public bool tripleToasted = false;
 	public bool canDestroy = false;
 	
 
@@ -38,7 +38,7 @@ public class Toast : MonoBehaviour {
 		bumpSound = GetComponent<AudioSource>();
 		
 		collider.enabled = true;
-		transform.localRotation = Quaternion.Euler(90.0f, Random.Range(0,360), 45.0f);
+		transform.localRotation = Quaternion.Euler(0.0f, Random.Range(0,360), 45.0f);
 		originalRotationValue = transform.rotation;
 	}
 
@@ -47,6 +47,11 @@ public class Toast : MonoBehaviour {
 		if (transform.position.y < -25) {
 			Destroy(gameObject);
 			if (breadSpawner.breadCount > 0 ) breadSpawner.breadCount--;
+		}
+		if (toastedState == Toasted.THRICE && transform.position.y > 3.0f) {
+			if (breadSpawner.breadCount > 0) breadSpawner.breadCount--;
+			Destroy(gameObject);
+			
 		}
 	}
 
@@ -97,7 +102,7 @@ public class Toast : MonoBehaviour {
 		if (Vector3.Distance(transform.position, toaster.transform.position) < 0.6f && !toaster.isFilled) {
 			toaster.gameObject.GetComponent<Renderer>().material = toaster.highlighted;
 			transform.rotation = toaster.transform.rotation;
-			transform.Rotate(new Vector3(1,0,0), 90.0f);
+			transform.Rotate(new Vector3(0,0,1), 90.0f);
 			transform.Rotate(new Vector3(0,1,0), 90.0f);
 		} else {
 			toaster.gameObject.GetComponent<Renderer>().material = toaster.normal;
@@ -135,7 +140,7 @@ public class Toast : MonoBehaviour {
 			float distanceToSlotB = Vector3.Distance(transform.position,slotBSnapPosition);
 			
 			transform.rotation = toaster.transform.rotation;
-			transform.Rotate(new Vector3(1,0,0), 90.0f);
+			transform.Rotate(new Vector3(0,0,1), 90.0f);
 			transform.Rotate(new Vector3(0,1,0), 90.0f);
 
 			float newYPosition = toaster.transform.position.y + 1.0f;
@@ -159,14 +164,26 @@ public class Toast : MonoBehaviour {
 
 	public void BlastOff() {
 		CheckAndUpdateToastedness();
-		rigidbody.AddForce(transform.up * 1.7f, ForceMode.Impulse);
-		if (Random.RandomRange(0.0f,10.0f) > 5.0f) {
-			rigidbody.AddTorque(transform.forward * 130f, ForceMode.Impulse);
-			rigidbody.AddTorque(new Vector3(1,0,0) * 130f, ForceMode.Impulse);
-		} else {
-			rigidbody.AddTorque(transform.right * 130f, ForceMode.Impulse);
-			rigidbody.AddTorque(new Vector3(1,0,0) * 130f, ForceMode.Impulse);
+		if (toastedState == Toasted.THRICE)
+		{
+			rigidbody.AddForce(Vector3.up * 3.7f, ForceMode.Impulse);
 		}
+		else
+		{
+			rigidbody.AddForce(Vector3.up * 1.7f, ForceMode.Impulse);
+			if (Random.Range(0.0f, 10.0f) > 5.0f)
+			{
+				rigidbody.AddTorque(transform.up * 130f, ForceMode.Impulse);
+				rigidbody.AddTorque(new Vector3(1, 0, 0) * 130f, ForceMode.Impulse);
+			}
+			else
+			{
+				rigidbody.AddTorque(transform.up * 130f, ForceMode.Impulse);
+				rigidbody.AddTorque(new Vector3(1, 0, 0) * 130f, ForceMode.Impulse);
+			}
+
+		}
+
 	}
 
 	void CheckAndUpdateToastedness() {
